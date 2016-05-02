@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block head %}
+{% endblock %}
+{% block content %}
+            
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Forms</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        ADD NEW FOLDER AND ITS POSTER
+                        </div>
+                        <br>
+                        <br>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                <form role="form">
+                                    <div class="form-group">
+                                    <label>NAME OF FOLDER</label><br>
+                                        <div><input name="name" id="name" class="form-control" placeholder="Enter the name here" required></div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                    <label>Poster</label>
+                                        <div class="form-group" >
+                                            <select class="form-control" id="e_poster" name="e_poster
+                                            " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width:100%;float:left" onchange="show_folder_poster_image();">
+                                                <option value="select poster" selected>select poster</option>
+                                                {% for file in e_poster_list %}
+                                                <option id="{{file.id}}" style="text-align:center">{{ file.name }}</option>
+                                                {% endfor %}
+                                            </select>                           
+                                             <!-- <select class="form-control" id="f_poster" name="f_poster
+                                            " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width:48.5%;float:right" onchange="showposterimage2();">
+                                                <option value="choose poster" selected>choose file</option>
+                                                {% for file in f_poster_list %}
+                                                <option style="text-align:center">{{ file }}</option>
+                                                {% endfor %}
+                                                </select>-->
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <h4>OR</h4>
+                                        <br>
+                                        <div>
+                                            <input type="file" id="f_poster" name="f_poster" style="width:48.5%;" class="filestyle" data-buttonText="Find file" accept=".jpg">
+                              
+                                        </div>
+                                        <br>
+                                        
+                                        <div>
+                                        <br>
+                                        <div><button id="submit" name="submit" onclick="event.preventDefault();addfolder();" type="submit" class="btn btn-primary form-control" >ADD FOLDER</button></div>
+                                    </div>
+                                </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                            <div style="float:right;width:450px;">
+                            <img id="preview" class="img-display" src="" style="float:right;width:400px;padding-top:20%;">
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+
+           
+
+
+
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/bootstrap-filestyle.min.js' %}" type="text/javascript"> 
+$(":file").filestyle({buttonText: "Find file"});
+</script>
+<script src="{% static 'js/bootstrap-select.min.js' %}" type="text/javascript"></script>  
+{% endblock %}

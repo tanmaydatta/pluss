@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<link href="{% static 'css/bootstrap-select.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Edit Content</h1>
+    </div>
+</div>
+
+ <div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form role="form" method="post" enctype="multipart/form-data">
+                                                       
+                            <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" id="name" name="name"  value="{{ content.name }}" placeholder="Enter Name"  required></input><br>
+                            <label style="color:red;" name="duration" id="duration">Duration</label>
+                            </div>
+
+                            <div class="form-group">
+                            <label>Hours</label>&nbsp;&nbsp;
+                            <select name="hours" id="hours">
+                            {% if hours == 0 %}
+                            <option selected>{{ hours }}</option>
+                            {% for i in "x"|ljust:"11" %}
+                             <option>    {{ forloop.counter }} </option>
+                            {% endfor %}
+                            
+                            {% else %}
+                            <option>0</option>
+                            {% for i in "x"|ljust:"11" %}
+                            {% if hours == forloop.counter %}
+                            <option selected>    {{ forloop.counter }} </option>
+                            {% else %}
+                            <option>    {{ forloop.counter }} </option>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            </select>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>Minutes</label>&nbsp;&nbsp;
+                            <select name="minutes" id="minutes" >
+                            
+                            {% if minutes == 0 %}
+                            <option selected>{{ minutes }}</option>
+                             {% for i in "x"|ljust:"59" %}
+                            <option>    {{ forloop.counter }} </option>
+                            {% endfor %}
+                            {% else %}
+                            <option>0</option>
+                            {% for i in "x"|ljust:"59" %}
+                            {% if minutes == forloop.counter %}
+                            <option selected>    {{ forloop.counter }} </option>
+                            {% else %}
+                            <option>    {{ forloop.counter }} </option>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                             </select>
+                            
+                            &nbsp;&nbsp;
+                            <label>Seconds</label>&nbsp;&nbsp;&nbsp;&nbsp; 
+                            <select name="seconds" id="seconds" >
+                            {% if seconds == 0 %}
+                            <option selected>{{ seconds }}</option>
+                            {% for i in "x"|ljust:"59" %}
+                            <option>    {{ forloop.counter }} </option>
+                            {% endfor %}
+
+                            {% else %}
+                            <option>0</option>
+                            {% for i in "x"|ljust:"59" %}
+                            {% if seconds == forloop.counter %}
+                            <option selected>    {{ forloop.counter }} </option>
+                            {% else %}
+                            <option>    {{ forloop.counter }}  </option>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            </select>
+                            </div>
+                            <br>
+                            <div class="dropdown">                 
+                             <label>Genre</label>
+                             <br>
+                                  <select  class = "selectpicker" name="genre" id="select3" multiple> 
+                                  {% if content.genre %} 
+                                  {% for g in content.genre.get_queryset %}
+                                  <option selected>{{ g.name }}</option>
+                                  {% endfor %}
+                                  {% else %}
+                                  {% endif %}
+                                  {% for file in genre_list %}
+                                  <option>{{ file }}</option>
+                                  {% endfor %}
+                                  
+                                  </select>
+                            </div>
+                          
+                            <br><br>
+                            <div class="form-group">
+                            <label>Language</label>
+                            <select class="form-control" id="language" name="language
+                              " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width: 100%;" >
+                                 <ul class="dropdown-menu" aria-labelledby="language" style="width: 100%;">
+                                  {% if content_language %}
+                                    <option>{{ content_language }}</option>
+                                  
+                                    {% for file in language_list %}
+                                    {% if content_language != file %}
+                                      <option style="text-align:center" >{{ file }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                  {% endif %}  
+                                </ul>
+                            </select>
+                            <br><br>
+                            <label>Content Type</label>
+                            <select class="form-control" id="content_type" name="content_type
+                              " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width: 100%;" >
+                                <ul class="dropdown-menu" aria-labelledby="content_type" style="width: 100%;">
+                                  
+                                    {% for file in content_type_list %}
+                                    <option style="text-align:center" >{{ file }}</option>
+                                    {% endfor %}
+                                </ul>
+                            </select>
+                            <br><br>
+                            <label>Poster</label>
+                            <div class="form-group" >
+                            <select class="form-control" id="e_poster" name="e_poster
+                              " data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width:48.5%;float:right;" onchange="showposterimage();">
+                              {% if  content.poster  %}
+                                  <option id="{{ content.poster.id }}" selected>{{ content.poster.name }}</option>
+                                  <option>choose poster</option>
+                              {% else %}
+                                  <option selected>choose poster</option>
+                              {% endif %}
+
+                                  {% for file in e_poster_list %}
+                                  {% if content.poster.name != file.name %}
+                                  <option id="{{ file.id }}" style="text-align:center">{{ file.name }}</option>
+                                  {% endif %}
+                                  {% endfor %}
+
+                             
+                             </select>                           
+                               <input id="f_poster" name="f_poster
+                              "  style="width:48.5%;" type="file"  class="filestyle" data-buttonText="Find file" accept=".jpg" />
+
+                            </div>
+                            <br>
+                            <label>Content</label>
+                            <br>
+                            <div class="form-group" style="width:100%" >
+                             {% if content.orig_name %}
+                            <input class="form-control" name="file" id="file" disabled value="{{ content.orig_name }}" ></input>
+                            {% else %}
+                              <select class="form-control" name="file" id="file" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="text-align:center;width:100%;" value="Choose Content">
+                                <ul class="dropdown-menu" aria-labelledby="file" style="width: 100%;">
+                               
+                                  <option selected>choose content</option>
+                                  {% for file in file_list %}
+                                  <option style="text-align:center">{{ file }}</option>
+                                  {% endfor %}
+                                                                
+                                </ul>
+                              </select>
+                            {% endif %}
+                            </div>
+                            <br><br>
+                            
+                            
+                            <button type="submit"  onclick="event.preventDefault();edit_content({{ content.id }});" class="btn btn-primary">Submit Button</button>
+                            <button type="reset" class="btn btn-default">Reset Button</button>
+                            <!-- <input id="approved" value hidden > -->
+                        </form>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                          
+                    <!-- /.col-lg-6 (nested) -->
+                </div>
+                <!-- /.row (nested) -->
+                <img id="preview" src="" style="max-width:480px;max-height:480px;float:right;padding-top:20%;">   
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+
+{% endblock %}
+ 
+{% block scripts %}
+<script src="{% static 'js/bootstrap-filestyle.min.js' %}" type="text/javascript"> 
+$(":file").filestyle({buttonText: "Find file"});
+</script>
+<script src="{% static 'js/bootstrap-select.min.js' %}" type="text/javascript"></script>  
+ <script type="text/javascript">
+ $('.selectpicker').selectpicker();
+//  $("#select3").pqSelect({
+//     multiplePlaceholder: 'Select Countries',    
+//     checkbox: true //adds checkbox to options    
+// }).pqSelect( 'open' );
+</script>  
+
+{% endblock %}  
