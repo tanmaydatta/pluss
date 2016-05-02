@@ -52,3 +52,6 @@ def login(request):
 def home(request):
 	return render(request,'home.html')
 
+@login_required
+def add(request):
+	return render(request, 'add.html')
