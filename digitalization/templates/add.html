@@ -14,7 +14,24 @@
 
  <div class="row">
     <div class="col-lg-12">
-        <div class="panel panel-default">
+      <div class="dropdown" >                 
+       <label>Type : </label>
+       <br>
+            <select  class = "selectpicker" name="genre" id="select">  
+            <option></option>
+            <option value="1" id="option1" class="option">Prescription</option>
+            <option value="2" id="option2" class="option">OTC</option>
+            <!-- <option>product</option> -->
+            </select>
+      </div><br>
+      <div class="dropdown" style="display: none;" id="div2">                 
+       <label>Products : </label>
+       <br>
+            <input type="text" class="form-control" id="select2" value="" placeholder="select product...." required>
+            
+      </div><br>
+      <div>
+        <div class="panel panel-default" style="display: none;" id="form1">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
@@ -23,7 +40,7 @@
                             <div class="dropdown">                 
                              <label>Type</label>
                              <br>
-                                  <select  class = "selectpicker" name="genre" id="select3" >  
+                                  <select  class = "selectpicker" name="genre"  >  
                                   <option></option>
                                   <option>salt</option>
                                   <option>manufacture</option>
@@ -36,23 +53,97 @@
                             <div class="dropdown">                 
                              <label>Manufacture</label>
                              <br>
-                                  <select  class = "selectpicker" name="genre" id="select3" >  
+                                  <input type="text" class="form-control" id="select3" value="" placeholder="select manufacture...." required>
+                            </div>
+                            <br>
+                            <!-- <div class="dropdown">  
+                              <div class="col-lg-6">               
+                               <label>Salts</label>
+                                    <input type="text" class="form-control"  value="" placeholder="select salt...." required>
+                              </div>
+                              <div class="col-lg-4">
+                                <label>Strength</label>
+                                    <input type="text" class="form-control" value="" placeholder="select salt...." required>
+                                </div>
+                            </div>   -->
+                            <div class="dropdown" id="addsalt">  
+                              <div class="col-lg-6">               
+                               <label>Salts</label>
+                                    <input type="text" class="form-control" id="select4" value=""  placeholder="select salt...." required>
+                              </div>
+                              <div class="col-lg-4">
+                                <label>Strength</label>
+                                    <input type="text" class="form-control" value="" id="salt_strength" placeholder="select salt...." required>
+                                </div>
+
+                                <div class="col-lg-2" style="align-content: center;padding-top: 4.5%;padding-bottom: 5%;  ">
+                                  <!-- <label><p>Add</p></label> -->
+                                  <button type="button" id="add" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="form-group" >
+                            
+                              <label>Image</label>
+                               <!-- <select class="form-control" id="e_poster" name="e_poster" style="width:48.5%;float:right;" onchange="showposterimage();">
+                                    <option value="select poster" selected>select poster</option>
+                                    {% for file in e_poster_list %}
+                                    <option id="{{ file.id }}" style="text-align:center">{{ file.name }}</option>
+                                    {% endfor %}
+                                </select>      -->                      
+                                <input type="file" id="f_poster" name="f_poster" style="width:48.5%;" class="filestyle" data-buttonText="Find file" accept=".jpg">
+                              
+    
+                            </div>
+                            <br>
+                            <label>Content</label>
+                            <input id="link" value="{{ link }}" hidden>
+                            <br>
+                            <button type="submit" onclick="event.preventDefault();addContent();" class="btn btn-primary">Submit Button</button>
+                            <button type="reset" class="btn btn-default">Reset Button</button>
+                            <!-- <input id="approved" value hidden > -->
+                        </form>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <!-- /.col-lg-6 (nested) -->
+                </div>
+                <!-- /.row (nested) -->
+                 <img id="preview" src="" style="float:right;padding-top:20%;">       
+            </div>
+            <!-- /.panel-body -->
+        </div>
+      </div>
+      <div>
+        <div class="panel panel-default" style="display: none;" id="form2">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form id="add_form" method="post" enctype="multipart/form-data">
+                        <br>
+                            <div class="dropdown">                 
+                             <label>Type</label>
+                             <br>
+                                  <select  class = "selectpicker" name="genre" >  
                                   <option></option>
-                                  {% for m in manufacture %}      
-                                  <option>{{ m }}</option>  
-                                  {% endfor %}  
+                                  <option>salt</option>
+                                  <option>manufacture</option>
+                                  <option>product</option>
                                   </select>
+                            </div><br>
+                            <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" id="name" name="name" placeholder="Enter Name"  required></input><br>
+                            <div class="dropdown">                 
+                             <label>Manufacture</label>
+                             <br>
+                                  <input type="text" class="form-control" id="select5" value="" placeholder="select manufacture...." required>
                             </div>
                             <br>
                             <div class="dropdown">                 
                              <label>Salts</label>
                              <br>
-                                  <select  class = "selectpicker" name="genre" id="select3" multiple>  
-                                  <option></option>
-                                  {% for s in salts %}      
-                                  <option>{{ s.name }}</option>  
-                                  {% endfor %}  
-                                  </select>
+                                  <input type="text" class="form-control" id="select6" value="" placeholder="select salt...." required>
                             </div>
                             <br>
                             <label>Image</label>
@@ -85,6 +176,7 @@
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
+      </div>
     </div>
     <!-- /.col-lg-12 -->
 
@@ -101,15 +193,151 @@ $(":file").filestyle({buttonText: "Find file"});
 <script src="{% static 'js/bootstrap-select.min.js' %}" type="text/javascript"></script>  
 <script type="text/javascript">
   $('.selectpicker').selectpicker();
-  {% if link %}
-    $('#name').val('{{ title }}');
-    $('#hours').val('{{ duration.0 }}');
-    $('#minutes').val('{{ duration.1 }}');
-    $('#seconds').val('{{ duration.2 }}');
-    $('.selectpicker').selectpicker('val','{{ category }}'.toLowerCase());
-    $('#content_type').val('{{ type }}');
-    $('#e_poster').val('{{ poster }}');
-  {% endif %}
+  
 </script>  
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    var list_manu = []
+    var list_salt = []
+    //alert("asd"); 
+    var list =[]
+    var id= []
+
+    //load();
+
+    $("#select").on('change',function(){
+      $("#div2").show();
+      var k =load();
+      $("#select2").autocomplete({
+        source:list
+      });
+      var valueSelected = $("option:selected").val();
+      //alert(valueSelected);
+      if (valueSelected == '1') {
+        if($('#form2').css('display') != 'none') {
+          //console.log("1f2");
+          $('#form2').fadeOut();
+        }
+        if($('#form1').css('display') == 'none') {
+          //console.log("1f1");
+          $('#form1').fadeIn();
+        }
+      }
+      if (valueSelected == '2') {
+        if($('#form1').css('display') != 'none') {
+          //console.log("2f1");
+          $('#form1').fadeOut();
+        }
+        if($('#form2').css('display') == 'none') {
+          //console.log("2f2");
+          $('#form2').fadeIn();
+        }
+      }
+      //alert(valueSelected);
+    });
+
+    $("#select2").keyup(function(event){
+      if (event.which == 13){
+        var v = $('#select2').val();
+        for(var i=0;i<list.length;i++) {
+          if(v == list[i]){
+            v = id[i];
+            break;
+          }
+        }
+        alert(v);
+      }
+
+      else {
+        var v = $('#select2').val();
+        console.log(v);
+        var url = "http://localhost:8000/d/search/?q="+v;
+        //alert(url);
+        $.ajax({
+          url: url, 
+          type : "GET",
+          success: function(result){
+            console.log("success function reached");
+            result = JSON.parse(result);
+            //alert(result.products);
+            //var list = [];
+            id =[]
+            list = []
+            for (x in result.products) {
+              //alert(result.products[x].name);
+              id.push(result.products[x].id)
+              list.push(result.products[x].name)
+            }
+            //alert(list)
+            $("#select2").autocomplete({
+              source:list
+            });
+          },
+          error: function(result) {
+            console.log("error in ajax");
+            result = JSON.parse(result);
+          }
+      });
+        //alert(v);
+      }
+      
+    });
+
+    function load() {
+      console.log("here");
+     {% for m in manufacture %}
+        list_manu.push("{{m}}")
+      {% endfor %}
+      $("#select3").autocomplete({
+        source:list_manu
+      });
+      $("#select5").autocomplete({
+        source:list_manu
+      });
+      
+
+      {% for s in salts %}
+        list_salt.push("{{s.name}}")
+      {% endfor %}
+      $("#select4").autocomplete({
+        source:list_salt
+      });
+      $("#select6").autocomplete({
+        source:list_salt
+      });
+
+    }
+
+    $('#add').click(function(event){
+      // event.preventDefault();
+      var name = $('#select4').val();
+      var Strength = $('#salt_strength').val();
+      if (name != '' && Strength != ''){
+      //alert(name);
+      //alert(Strength);
+
+        var add = `<div class="dropdown">  
+                                <div class="col-lg-6">               
+                                 <label>Salts</label>
+                                      <input type="text" class="form-control"  value="`+name+`" placeholder="select salt...." required>
+                                </div>
+                                <div class="col-lg-4">
+                                  <label>Strength</label>
+                                      <input type="text" class="form-control" value="`+Strength+`" placeholder="select salt...." required>
+                                  </div>
+                                  <div class="col-lg-2" style="align-content: center;padding-top: 4.5%;padding-bottom: 5%;  ">
+                                    <button onclick="$(this).parent().parent().remove();" type="button" id="delete" class="btn btn-primary">Delete</button>
+                                  </div>
+                              </div>`;
+        //alert(add);
+        $(add).insertBefore($('#addsalt'));
+        $('#select4').val('');
+        $('#salt_strength').val('');
+      }
+    });
+
+  });
+</script>
 
 {% endblock %}  

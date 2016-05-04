@@ -70,6 +70,7 @@ def get_all_data():
 
 
 @login_required
+#@csrf_exempt
 def add(request):
 	if request.method == "GET":
 		return render(request, 'add.html', get_all_data())
