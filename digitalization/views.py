@@ -13,6 +13,7 @@ from django.db.models import *
 import datetime
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
+from django.contrib.auth import logout as logout_user
 from django.contrib.auth.decorators import login_required
 
 
@@ -57,9 +58,9 @@ def get_all_data():
 	data['salts'] = []
 	data['sku_type'] = []
 	data['manufacture'] = []
-	salts = SaltName.objects.all()
-	sku_type = SkuType.objects.all()
-	manufacture = ManufactureName.objects.all()
+	salts = SaltName.objects.using('pluss').all()
+	sku_type = SkuType.objects.using('pluss').all()
+	manufacture = ManufactureName.objects.using('pluss').all()
 	for i in salts:
 		data['salts'].append(i.getDetails())
 	for i in sku_type:
@@ -70,86 +71,93 @@ def get_all_data():
 
 
 @login_required
-#@csrf_exempt
+@csrf_exempt
+def edit(request):
+	if request.method == "GET":
+		return render(request, 'edit.html', get_all_data())
+
+@login_required
+@csrf_exempt
 def add(request):
 	if request.method == "GET":
 		return render(request, 'add.html', get_all_data())
 	elif request.method == "POST":
-		add_type = request.POST.get('type')
+		ipdb.set_trace()
+		add_type = request.POST.get('add_type')
 		name = request.POST.get('name')
 		if add_type == 'salt':
 			obj = SaltName(name=name)
-			obj.save()
+			obj.save(using='pluss')
 			log = Logs(msg="New salt added, name = " + name, user=request.user)
 
 		elif add_type == 'manufacture':
 			obj = ManufactureName(name=name)
-			obj.save()
+			obj.save(using='pluss')
 			log = Logs(msg="New manufacture added, name = " + name, user=request.user)
 
-		elif add_type == 'product':
-			try:
-				manufacture = request.POST.get('manufacture')
-				manufacture = ManufactureName.objects.filter(name=manufacture)[0]
-			except:
-				response = {
-		            'status':'failed',
-		            'error':'manufacture name incorrect or not passed'
-		        }
-				return HttpResponse(json.dumps(response))
-			try:
-				sku = request.POST.get('sku_type')
-				sku = SkuType.objects.filter(name=sku_type)[0]
-			except:
-				response = {
-		            'status':'failed',
-		            'error':'sku_type incorrect or not passed'
-		        }
-				return HttpResponse(json.dumps(response))
-			try:
-				salts = request.POST.get('salts')
-				saltmap = []
-				for s in salts:
-					saltmap.append((SaltName.objects.filter(name=s['name'])[0],s))
+		elif add_type == 'prescription':
+			# try:
+			# 	manufacture = request.POST.get('manufacture')
+			# 	manufacture = ManufactureName.objects.get(id=int(manufacture))
+			# except:
+			# 	response = {
+		 #            'status':'failed',
+		 #            'error':'manufacture name incorrect or not passed'
+		 #        }
+			# 	return HttpResponse(json.dumps(response))
+			# try:
+			# 	sku = request.POST.get('sku_type')
+			# 	sku = SkuType.objects.get(id=int(sku_type))
+			# except:
+			# 	response = {
+		 #            'status':'failed',
+		 #            'error':'sku_type incorrect or not passed'
+		 #        }
+			# 	return HttpResponse(json.dumps(response))
+			# try:
+			# 	salts = request.POST.get('salts')
+			# 	saltmap = []
+			# 	for s in salts:
+			# 		saltmap.append((SaltName.objects.get(id=int(s['id'])),s['str']))
 
-			except:
-				response = {
-		            'status':'failed',
-		            'error':'salt names incorrect or not passed'
-		        }
-				return HttpResponse(json.dumps(response))
-			try:
-				pack_size = request.POST.get('pack_size')
-			except:
-				response = {
-		            'status':'failed',
-		            'error':'pack_size not passed'
-		        }
-				return HttpResponse(json.dumps(response))
-			try:
-				drug_form = request.POST.get('drug_form')
-			except:
-				response = {
-		            'status':'failed',
-		            'error':'drug_form not passed'
-		        }
-				return HttpResponse(json.dumps(response))
-			try:
-				pack_form = request.POST.get('pack_form')
-			except:
-				response = {
-		            'status':'failed',
-		            'error':'pack_form not passed'
-		        }
-				return HttpResponse(json.dumps(response))
-			p_obj = Products(name=name,manufacture=manufacture,pack_size=pack_size,pack_form=pack_form,drug_form=drug_form,sku_type=sku_type)
-			p_obj.save()
-			for salt in saltmap:
-				obj = ProductSaltMap(product=p_obj,salt=salt[0],salt_strength=salt[1]['s_str'],strength_unit=salt[1]['str_unit'])
-				obj.save()
+			# except:
+			# 	response = {
+		 #            'status':'failed',
+		 #            'error':'salt names incorrect or not passed'
+		 #        }
+			# 	return HttpResponse(json.dumps(response))
+			# try:
+			# 	pack_size = request.POST.get('pack_size')
+			# except:
+			# 	response = {
+		 #            'status':'failed',
+		 #            'error':'pack_size not passed'
+		 #        }
+			# 	return HttpResponse(json.dumps(response))
+			# try:
+			# 	drug_form = request.POST.get('drug_form')
+			# except:
+			# 	response = {
+		 #            'status':'failed',
+		 #            'error':'drug_form not passed'
+		 #        }
+			# 	return HttpResponse(json.dumps(response))
+			# try:
+			# 	pack_form = request.POST.get('pack_form')
+			# except:
+			# 	response = {
+		 #            'status':'failed',
+		 #            'error':'pack_form not passed'
+		 #        }
+			# 	return HttpResponse(json.dumps(response))
+			# p_obj = Products(name=name,manufacture=manufacture,pack_size=pack_size,pack_form=pack_form,drug_form=drug_form,sku_type=sku_type)
+			# p_obj.save(using='pluss')
+			# for salt in saltmap:
+			# 	obj = ProductSaltMap(product=p_obj,salt=salt[0],salt_strength=salt[1])
+			# 	obj.save(using='pluss')
 
-			log = Logs(msg="New product added, name = " + name, user=request.user)
-				
+			# log = Logs(msg="New product added, name = " + name, user=request.user)
+			# log.save()
 			response = {
 	            'status':'success',
 	            'msg':'new product added'
@@ -168,8 +176,8 @@ def search(request):
 	if request.method == "GET":
 		response = {}
 		query = request.GET['q']
-		medicine = Products.objects.filter(name__icontains=query)
-		salts = SaltName.objects.filter(name__icontains=query)
+		medicine = Products.objects.using('pluss').filter(name__icontains=query)
+		salts = SaltName.objects.using('pluss').filter(name__icontains=query)
 		response['products'] = []
 		response['salts'] = []
 		for i in medicine[:5]:
@@ -189,9 +197,9 @@ def get_product(request):
 	if request.method == "GET":
 		response = {}
 		id = request.GET['id']
-		product = Products.objects.get(id=id)
-		saltmap = ProductSaltMap.objects.filter(product=product)
-		availability = Availability.objects.filter(product = product)
+		product = Products.objects.using('pluss').get(id=id)
+		saltmap = ProductSaltMap.objects.using('pluss').filter(product=product)
+		availability = Availability.objects.using('pluss').filter(product = product)
 		response['product'] = product.getDetails()
 		response['saltmap'] = []
 		response['availability'] = []
@@ -207,4 +215,5 @@ def get_product(request):
             'error':'not a get request'
         }
 		return HttpResponse(json.dumps(response))
+
 

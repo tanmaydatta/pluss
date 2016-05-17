@@ -78,15 +78,24 @@ WSGI_APPLICATION = 'pluss.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pluss',
+        'NAME': 'puneet',
         'USER': 'root',
         'PASSWORD': '123',
         'HOST': 'localhost',
         'PORT': '',
     }
+    ,
+    'pluss': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'pluss',
+        'USER': 'tanmay',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
-
+# DATABASE_ROUTERS = ['digitalization.digitalization_router.Digitalization']
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 

@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Add Content</h1>
+        <h1 class="page-header">Edit Content</h1>
     </div>
 </div>
 
@@ -24,21 +24,20 @@
             <!-- <option>product</option> -->
             </select>
       </div><br>
-      <!-- <div class="dropdown" style="display: none;" id="div2">                 
+      <div class="dropdown" style="display: none;" id="div2">                 
        <label>Products : </label>
        <br>
             <input type="text" class="form-control" id="select2" value="" placeholder="select product...." required>
             
-      </div><br> -->
+      </div><br>
       <div>
         <div class="panel panel-default" style="display: none;" id="form1">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form action="" id="add_form" method="post" enctype="multipart/form-data">
+                        <form id="add_form" method="post" enctype="multipart/form-data">
                         <br>
-                        <input hidden id="add_type" name="add_type"></input>
-                            <!-- <div class="dropdown">                 
+                            <div class="dropdown">                 
                              <label>Type</label>
                              <br>
                                   <select  class = "selectpicker" name="genre"  >  
@@ -47,14 +46,14 @@
                                   <option>manufacture</option>
                                   <option>product</option>
                                   </select>
-                            </div><br> -->
+                            </div><br>
                             <div class="form-group">
                             <label>Name</label>
                             <input class="form-control" id="name" name="name" placeholder="Enter Name"  required></input><br>
                             <div class="dropdown">                 
                              <label>Manufacture</label>
                              <br>
-                                  <input type="text" class="form-control" id="select3" value="" placeholder="select manufacture...." required name="manufacture">
+                                  <input type="text" class="form-control" id="select3" value="" placeholder="select manufacture...." required>
                             </div>
                             <br>
                             <!-- <div class="dropdown">  
@@ -70,11 +69,11 @@
                             <div class="dropdown" id="addsalt">  
                               <div class="col-lg-6">               
                                <label>Salts</label>
-                                    <input type="text" class="form-control" id="select4" value=""  placeholder="select salt...." required name="salt_name">
+                                    <input type="text" class="form-control" id="select4" value=""  placeholder="select salt...." required>
                               </div>
                               <div class="col-lg-4">
                                 <label>Strength</label>
-                                    <input type="text" class="form-control" value="" id="salt_strength" placeholder="select salt...." required name="salt_strength">
+                                    <input type="text" class="form-control" value="" id="salt_strength" placeholder="select salt...." required>
                                 </div>
 
                                 <div class="col-lg-2" style="align-content: center;padding-top: 4.5%;padding-bottom: 5%;  ">
@@ -101,7 +100,7 @@
                             <label>Content</label>
                             <input id="link" value="{{ link }}" hidden>
                             <br>
-                            <button type="submit"  onclick="event.preventDefault();addContent();" class="btn btn-primary">Submit Button</button>
+                            <button type="submit" onclick="event.preventDefault();addContent();" class="btn btn-primary">Submit Button</button>
                             <button type="reset" class="btn btn-default">Reset Button</button>
                             <!-- <input id="approved" value hidden > -->
                         </form>
@@ -216,7 +215,6 @@ $(":file").filestyle({buttonText: "Find file"});
       var valueSelected = $("option:selected").val();
       //alert(valueSelected);
       if (valueSelected == '1') {
-        $('#add_type').val("prescription");
         if($('#form2').css('display') != 'none') {
           //console.log("1f2");
           $('#form2').fadeOut();
@@ -322,11 +320,11 @@ $(":file").filestyle({buttonText: "Find file"});
         var add = `<div class="dropdown">  
                                 <div class="col-lg-6">               
                                  <label>Salts</label>
-                                      <input type="text" class="form-control" name="salt_name" value="`+name+`" placeholder="select salt...." required>
+                                      <input type="text" class="form-control"  value="`+name+`" placeholder="select salt...." required>
                                 </div>
                                 <div class="col-lg-4">
                                   <label>Strength</label>
-                                      <input type="text" class="form-control" name="salt_strength"  value="`+Strength+`" placeholder="select salt...." required>
+                                      <input type="text" class="form-control" value="`+Strength+`" placeholder="select salt...." required>
                                   </div>
                                   <div class="col-lg-2" style="align-content: center;padding-top: 4.5%;padding-bottom: 5%;  ">
                                     <button onclick="$(this).parent().parent().remove();" type="button" id="delete" class="btn btn-primary">Delete</button>

@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^home/$', home, name='home'),
     url(r'^search/$', search, name='search'),
     url(r'^add/$', add, name='add'),
+    url(r'^edit/$', edit, name='edit'),
     url(r'^get_product/$', get_product, name='get_product'),
 
 ]
